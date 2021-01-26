@@ -8,6 +8,14 @@ _During the beta period, these restrictions may be relaxed in the event of a mis
 
 ## Next
 
+- Added `handle-icon` slot to `sl-image-comparer` [#311](https://github.com/shoelace-style/shoelace/issues/311)
+- Fixed a bug in `sl-select` where removing a tag would toggle the dropdown
+- Fixed a bug in `sl-input` and `sl-textarea` where the input might not exist when the value watcher is called [#313](https://github.com/shoelace-style/shoelace/issues/313)
+- Updated `sl-menu-item` focus styles
+- Updated `sl-select` so tags will wrap when `multiple` is true
+
+## 2.0.0-beta.26
+
 - 🚨 BREAKING CHANGE: Fixed animations bloat
   - Removed ~400 baked-in Animista animations because they were causing ~200KB of bloat (they can still be used with custom keyframes)
   - Reworked animations into a separate module ([`@shoelace-style/animations`](https://github.com/shoelace-style/animations)) so it's more maintainable and animations are sync with the latest version of animate.css
@@ -20,6 +28,7 @@ _During the beta period, these restrictions may be relaxed in the event of a mis
 - Fixed a bug where `sl-hide` would be emitted twice when closing an alert with `hide()`
 - Fixed a bug in `sl-color-picker` where the toggle button was smaller than the preview button in Safari
 - Fixed a bug in `sl-tab-group` where activating a nested tab group didn't work properly [#299](https://github.com/shoelace-style/shoelace/issues/299)
+- Fixed a bug in `sl-tab-group` where removing tabs would throw an error
 - Fixed a bug in `sl-alert`, `sl-dialog`, `sl-drawer`, `sl-select`, and `sl-tag` where the close button's base wasn't exported so it couldn't be styled
 - Removed `text` type from `sl-badge` as it was erroneously copied and never had styles
 - Updated `sl-tab-group` so the `active` prop is reflected to the attribute

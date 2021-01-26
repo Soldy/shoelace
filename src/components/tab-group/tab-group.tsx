@@ -64,6 +64,7 @@ export class TabGroup {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleScrollLeft = this.handleScrollLeft.bind(this);
     this.handleScrollRight = this.handleScrollRight.bind(this);
+    this.syncActiveTabIndicator = this.syncActiveTabIndicator.bind(this);
   }
 
   componentDidLoad() {
@@ -137,7 +138,7 @@ export class TabGroup {
   handleClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const tab = target.closest('sl-tab');
-    const tabGroup = tab.closest('sl-tab-group');
+    const tabGroup = tab?.closest('sl-tab-group');
 
     // Ensure the target tab is in this tab group
     if (tabGroup !== this.host) {
@@ -152,7 +153,7 @@ export class TabGroup {
   handleKeyDown(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
     const tab = target.closest('sl-tab');
-    const tabGroup = tab.closest('sl-tab-group');
+    const tabGroup = tab?.closest('sl-tab-group');
 
     // Ensure the target tab is in this tab group
     if (tabGroup !== this.host) {
@@ -260,6 +261,14 @@ export class TabGroup {
 
   syncActiveTabIndicator() {
     const tab = this.getActiveTab();
+
+    if (tab) {
+      this.activeTabIndicator.style.display = 'block';
+    } else {
+      this.activeTabIndicator.style.display = 'none';
+      return;
+    }
+
     const width = tab.clientWidth;
     const height = tab.clientHeight;
     const offset = getOffset(tab, this.nav);
@@ -311,14 +320,14 @@ export class TabGroup {
               onClick={this.handleScrollLeft}
             />
           )}
-          <div ref={el => (this.nav = el)} key="nav" part="nav" class="tab-group__nav" tabindex="-1">
+          <div ref={el => (this.nav = el)} key="nav" part="nav" class="tab-group__nav">
             <div ref={el => (this.tabs = el)} part="tabs" class="tab-group__tabs" role="tablist">
               <div
                 ref={el => (this.activeTabIndicator = el)}
                 part="active-tab-indicator"
                 class="tab-group__active-tab-indicator"
               />
-              <slot name="nav" />
+              <slot name="nav" onSlotchange={this.syncActiveTabIndicator} />
             </div>
           </div>
           {this.hasScrollControls && (
@@ -332,7 +341,7 @@ export class TabGroup {
         </div>
 
         <div ref={el => (this.body = el)} part="body" class="tab-group__body">
-          <slot />
+          <slot onSlotchange={this.syncActiveTabIndicator} />
         </div>
       </div>
     );
